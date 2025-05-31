@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>위키위키</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <a href="index.html">← 문서 목록으로 돌아가기</a>
+  <div id="content" style="margin-top:20px;"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get('file');
+
+    if (!file) {
+      document.getElementById('content').textContent = '파일 이름이 없습니다.';
+    } else {
+      fetch(file)
+        .then(res => {
+          if (!res.ok) throw new Error('파일을 불러올 수 없습니다.');
+          return res.text();
+        })
+        .then(mdText => {
+          document.getElementById('content').innerHTML = marked.parse(mdText);
+        })
+        .catch(err => {
+          document.getElementById('content').textContent = err.message;
+        });
+    }
+  </script>
+</body>
+</html>
