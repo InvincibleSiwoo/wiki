@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>인덱스</title>
+</head>
+<body>
+  <h1>인덱스</h1>
+  <ul id="docList"></ul>
+
+  <script>
+    fetch('documents.json')
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('docList');
+        data.forEach(doc => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = `view.html?file=${encodeURIComponent(doc.filename)}`;
+          a.textContent = doc.title;
+          li.appendChild(a);
+          list.appendChild(li);
+        });
+      });
+  </script>
+</body>
+</html>
